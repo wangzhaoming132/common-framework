@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!-- 引入数据库连接配置 -->
+    <properties resource="generator.properties"/>
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!-- 为模型生成序列化方法-->
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+        <!-- 为生成的Java模型创建一个toString方法 -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+
+        <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true" />
+        </commentGenerator>
+
+        <!-- 配置 tk.mybatis 插件 -->
+<!--        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">-->
+<!--            <property name="mappers" value="com.funtl.utils.MyMapper"/>-->
+<!--        </plugin>-->
+
+        <!-- 配置数据库连接 -->
+        <jdbcConnection
+                driverClass="${jdbc.driverClass}"
+                connectionURL="${jdbc.connectionURL}"
+                userId="${jdbc.userId}"
+                password="${jdbc.password}">
+            <!--解决mysql驱动升级到8.0后不生成指定数据库代码的问题-->
+            <property name="nullCatalogMeansCurrent" value="true" />
+        </jdbcConnection>
+
+        <!-- 配置实体类存放路径 -->
+        <javaModelGenerator targetPackage="com.web.commonframework.modular.entity" targetProject="src/main/java"/>
+        <!-- 配置 XML 存放路径 -->
+        <sqlMapGenerator targetPackage="com.web.commonframework.modular.mapper" targetProject="src/main/resources"/>
+
+        <!-- 配置 DAO 存放路径 -->
+        <javaClientGenerator
+                targetPackage="com.web.commonframework.modular.mapper"
+                targetProject="src/main/java"
+                type="XMLMAPPER"/>
+
+        <!-- 配置需要指定生成的数据库和表，% 代表所有表 -->
+        <table catalog="go_fishing" tableName="%">
+            <!-- mysql 配置 -->
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+        </table>
+    </context>
+</generatorConfiguration>
